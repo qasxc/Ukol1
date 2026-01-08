@@ -1,4 +1,5 @@
 import math
+from abc import ABC, abstractmethod
 
 class Locality:
     def __init__(self, name, locality_coefficient):
@@ -6,15 +7,15 @@ class Locality:
         self.locality_coefficient = locality_coefficient
 
 
-class Property():
-    def __init__(self, locality):
-        self.locality = locality   
-
+class Property(ABC):
+    @abstractmethod
+    def calculate_tax():
+        pass
         
 
 class Estate(Property):
     def __init__(self, locality, estate_type, area):
-        super().__init__(locality)
+        self.locality = locality
         self.area = area
         self.estate_type = estate_type
 
@@ -31,7 +32,7 @@ class Estate(Property):
 
 class Residence(Property):
     def __init__(self, name, locality, area, commercial):
-        super().__init__(locality)
+        self.locality = locality
         self.name = name
         self.area = area
         self.commercial = commercial
