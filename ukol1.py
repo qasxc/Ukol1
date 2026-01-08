@@ -48,6 +48,29 @@ class Residence(Property):
             tax *= 2
         return math.ceil(tax)
 
+
+class TaxReport():
+    def __init__(self, name, property_list):
+        self.name = name
+        self.property_list = property_list
+
+    def __str__(self):
+        return f"{self.name}, počet nemovitostí {len(self.property_list)}"    
+        
+    def add_property(self, property):
+        #vlozi do seznamu 
+        return self.property_list.append(property)
+         
+    def calculate_tax(self):
+        #vypocte celkovou vysi dane
+        tax_sum = 0
+        for nemovitost in self.property_list:
+            # print(nemovitost)
+            tax_sum += nemovitost.calculate_tax()
+        return tax_sum
+
+
+
 estate_type_koef = {
     "Zemědělský pozemek": 0.85,
     "Stavební pozemek": 9,
@@ -59,14 +82,22 @@ manetin = Locality("Manětín", 0.8)
 brno = Locality("Brno", 3)
 
 zemedelsky_pozemek = Estate(manetin, "Zemědělský pozemek", 900)  
-print(zemedelsky_pozemek)
+# print(zemedelsky_pozemek)
 
 zahrada = Estate(brno, "Zahrada", 100)
-print(zahrada)
+# print(zahrada)
 
 dum = Residence("Dům", manetin, 120, False)
-print(dum)
+# print(dum)
 
 kancelar = Residence("Kancelář", brno, 90, True)
-print(kancelar)
+# print(kancelar)
+
+
+priznani = TaxReport("Jan Novák", [dum, zahrada])
+# print(priznani)
+print(priznani.calculate_tax())
+priznani.add_property(kancelar)
+print(priznani.calculate_tax())
+# print(priznani)
 
