@@ -8,6 +8,9 @@ class Locality:
 
 
 class Property(ABC):
+    def __init__(self, locality):
+        self.locality = locality   
+
     @abstractmethod
     def calculate_tax():
         pass
@@ -15,7 +18,7 @@ class Property(ABC):
 
 class Estate(Property):
     def __init__(self, locality, estate_type, area):
-        self.locality = locality
+        super().__init__(locality)
         self.area = area
         self.estate_type = estate_type
 
@@ -32,7 +35,7 @@ class Estate(Property):
 
 class Residence(Property):
     def __init__(self, name, locality, area, commercial):
-        self.locality = locality
+        super().__init__(locality)
         self.name = name
         self.area = area
         self.commercial = commercial
@@ -44,7 +47,7 @@ class Residence(Property):
     def calculate_tax(self):
         #podlahová plocha * koeficient lokality * 15
         tax = self.area * self.locality.locality_coefficient * 15
-        if self.commercial == True:
+        if self.commercial:
             tax *= 2
         return math.ceil(tax)
 
@@ -82,7 +85,7 @@ manetin = Locality("Manětín", 0.8)
 brno = Locality("Brno", 3)
 
 zemedelsky_pozemek = Estate(manetin, "Zemědělský pozemek", 900)  
-# print(zemedelsky_pozemek)
+print(zemedelsky_pozemek)
 
 zahrada = Estate(brno, "Zahrada", 100)
 # print(zahrada)
